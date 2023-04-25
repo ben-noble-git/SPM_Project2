@@ -9,15 +9,17 @@ public:
     // shared function to get the type name
     static std::string getName() { return { "boid" }; }
     // pointer to the scene's vector of boids - so all can 'see' each other
-    static std::vector<cBoid*>*  sp_boids;
-
+    static std::vector<cBoid*>* sp_boids;
+    
     cBoid(int xpos, int ypos);
     virtual ~cBoid() = default;
     virtual void move();   
     virtual void draw();   
 
 protected:
-    static const int   BOIDS_MAX{ 1000 };
+    static const int    BOIDS_MAX{ 1000 };
+    // draw the velocity line/beak?
+    static bool   drawVelocityLine;
 
     ofVec2f     m_pos;                              // current position
     ofVec2f     m_vel;                              // current velocity

@@ -3,11 +3,11 @@
 
 
 // Boid controls
-static const int boidSpeed = 3;
+static const int boidSpeed = 3;     // movement velocity
 
 // Distance controls
-static const int localDist = 60;
-static const int avoidDist = 16;
+static const int localDist = 60;    // distance at which a boid considers itself in a mass
+static const int avoidDist = 16;    // minimum distance from neighbors to maintain
 
 // Movement controls
 static const float weightLocalVel = 0.3f; // How much should the boids look in the same direction as nearby boids?
@@ -17,15 +17,16 @@ static const float weightRandom = 0.1f; // How much should the boids move in a r
 static const float weightWall = 0.5f; // How much should the boids move away from the edge of the canvas?
 
 // Wall controls
-static const auto wallSize = 100;
+static const auto wallSize = 100;   // scene boundary thickness - try to stay inside
 
 // Draw controls
-static const int trailLength = 0;
-static const int beakLength = 6;
+static const int trailLength = 0;       // not implemented
+static const int velLineLength = 6;     // length of forward velocity line (beak)
 
 // definition of static class members
-const int   cBoid::BOIDS_MAX;
-std::vector<cBoid*>*  cBoid::sp_boids = nullptr;
+const int   cBoid::BOIDS_MAX;               // max boids for the scene. Just a warning if exceeded.
+bool    cBoid::drawVelocityLine = true;     // draw the velocity line?
+std::vector<cBoid*>*  cBoid::sp_boids = nullptr;    // shared reference to the scene's vector of boids
 
 //--------------------------------------------------------------
 cBoid::cBoid(int xpos, int ypos)
@@ -129,10 +130,10 @@ void cBoid::draw()
     ofSetColor(m_lineColor);
     ofDrawCircle(this->m_pos.x, this->m_pos.y, m_drawSize);
 
-    if (beakLength > 0)
+    if (drawVelocityLine > 0)
     {
         ofVec2f  beak(this->m_vel);
-        beak.scale(beakLength);
+        beak.scale(velLineLength);
         beak += this->m_pos;
         ofDrawLine(this->m_pos, beak);
     }
