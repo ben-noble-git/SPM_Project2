@@ -40,6 +40,8 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+    ofSetColor(ofColor::black);
+    ofDrawBitmapString(BOIDS_COUNT, 10, 10);
     m_scene.draw();
 }
 
@@ -66,6 +68,14 @@ void ofApp::keyReleased(int key){
 
     case 'r':   // reset
         m_runState = RUN_STATE::Reset_Pending; // queue the reset; complete this update
+        break;
+    case '+':
+        BOIDS_COUNT += 1;
+        m_scene.addBoid(1);
+        break;
+    case '-':
+        BOIDS_COUNT -= 1;
+        m_scene.removeBoid(1);
         break;
 
     default:    // ignore

@@ -12,6 +12,8 @@ public:
     ~cScene();
     void    setup(int count);
     void    reset();
+    void    addBoid(int count);
+    void    removeBoid(int count);
     void    update();
     void    draw();
     int     getWidth() const { return m_sceneWidth; }
