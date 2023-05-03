@@ -28,6 +28,10 @@ void ofApp::update()
 
     // update all boids
     m_scene.update();
+    
+
+    //ofSetupOpenGL(1024, 768, OF_FULLSCREEN);			// <-------- setup the GL context
+    //ofSetWindowMode(OF_FULLSCREEN);
 
     // pause execution for a bit - 1.5 seconds
     ofSleepMillis(FRAME_DELAY_MS);
@@ -45,7 +49,10 @@ void ofApp::exit() {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-
+    if (key == OF_KEY_F11) {
+        ofToggleFullscreen();
+        //setWindowMode(OF_FULLSCREEN);
+    }
 }
 
 //--------------------------------------------------------------

@@ -36,6 +36,8 @@ public:
 private:
 	const int		BOIDS_COUNT {300 };
 	const int		FRAME_DELAY_MS { 1 };
+	
+	ofWindowMode    windowMode = OF_WINDOW;
 
 	cScene			m_scene{ ofGetWidth(), ofGetHeight() };
 	
