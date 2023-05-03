@@ -7,6 +7,9 @@ class ofApp : public ofBaseApp
 {
 
 public:
+
+	int BOIDS_COUNT{ 300 };
+	
 	void setup();
 	void update();
 	void draw();
@@ -34,7 +37,6 @@ public:
 	};
 
 private:
-	const int		BOIDS_COUNT {300 };
 	const int		FRAME_DELAY_MS { 1 };
 
 	cScene			m_scene{ ofGetWidth(), ofGetHeight() };
