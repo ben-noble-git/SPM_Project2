@@ -43,8 +43,11 @@ void cScene::setup(int count)
 // kills all Boids and restarts the scene
 void cScene::reset()
 {
+    
     auto midX = ofGetWidth() / 2;
     auto midY = ofGetHeight() / 2;
+
+
 
     // old fashioned for loop needed to overwrite the vector elements 
     for (auto i = 0; i < m_boids.size(); i++)
@@ -56,8 +59,32 @@ void cScene::reset()
         }
         m_boids[i] = cBoid::spawn(midX, midY);
     }
+    
 }
+//--------------------------------------------------------------
+// adds a specific quantity of Boids to the vector
+void cScene::addBoid(int count) 
+{
+    cBoid::sp_boids = &m_boids;
+    
+    auto midX = ofGetWidth() / 2;
+    auto midY = ofGetHeight() / 2;
 
+    for (int i = count; i--;)
+    {
+        m_boids.push_back(cBoid::spawn(midX, midY));
+    }
+}
+//--------------------------------------------------------------
+// removes a specific quantity of Boids to the vector
+void cScene::removeBoid(int count)
+{   
+    cBoid::sp_boids = &m_boids;
+    for (int i = count; i--;)
+    {
+        m_boids.pop_back();
+    }
+}
 //--------------------------------------------------------------
 // draw all the Boids
 void    cScene::draw()
