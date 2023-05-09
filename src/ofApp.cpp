@@ -12,6 +12,21 @@ void ofApp::setup()
 
     // set to running state
     m_runState = RUN_STATE::Running;
+    
+	// checks if the file is loaded, if not, it loads the other file and plays it
+    backgroundMusic.load("backgroundMusic.mp3");
+    
+    do {     
+        if (backgroundMusic.isLoaded()) {
+            backgroundMusic.setLoop(true);
+            backgroundMusic.setVolume(0.7);
+			backgroundMusic.play();
+        }
+        else {
+            backgroundMusic.load("backgroundMusic.ogg");
+        }
+	} while (!backgroundMusic.isLoaded());
+  
 }
 
 //--------------------------------------------------------------
@@ -54,6 +69,15 @@ void ofApp::keyPressed(int key){
     if (key == OF_KEY_F11) {
         ofToggleFullscreen();
         //setWindowMode(OF_FULLSCREEN);
+    }
+    // pause the music
+	if (key == 'm') {
+        backgroundMusic.setPaused(backgroundMusic.isPlaying());
+        
+	}
+	// resume the music
+    else if (key == 'p') {
+		backgroundMusic.setPaused(!backgroundMusic.isPlaying());
     }
 }
 
