@@ -32,5 +32,6 @@ private:
     std::vector <std::vector<std::vector<cBoid*>>> m_regions;
     std::vector <std::vector<std::vector<cBoid*>>> m_regions_adjacent;
     int m_regionSize = 60;
+    int frame = 0;
 };
 

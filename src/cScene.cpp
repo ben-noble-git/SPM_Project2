@@ -3,7 +3,6 @@
 #include "cFactory.h"
 #include "cBoid.h"
 
-
 //--------------------------------------------------------------
 // cScene constructor
 cScene::cScene(int width, int height)
@@ -37,7 +36,7 @@ void cScene::setup(int count)
 
     for (int i = count; i--;)
     {   
-        m_boids.push_back(cBoid::spawn(midX, midY));   
+        m_boids.push_back(cBoid::spawn(midX, midY, m_boids.size()));   
         //m_boids.push_back(new cBoid{ midX, midY });
     }
 }
@@ -58,7 +57,7 @@ void cScene::reset()
             delete m_boids[i];
             m_boids[i] = nullptr;
         }
-        m_boids[i] = cBoid::spawn(midX, midY);
+        m_boids[i] = cBoid::spawn(midX, midY, m_boids.size());
     }
     
 }
@@ -68,7 +67,7 @@ void cScene::addBoid(int count,int x,int y)
 {
     for (int i = count; i--;)
     {
-        m_boids.push_back(cBoid::spawn(x, y));
+        m_boids.push_back(cBoid::spawn(x, y, m_boids.size()));
     }
 }
 //--------------------------------------------------------------
@@ -87,10 +86,7 @@ void cScene::removeBoid(int count)
 // draw all the Boids
 void    cScene::draw()
 {
-    // draw the grid
-    ofSetColor(ofColor::black);
-
-    for (auto& b : m_boids)
+    for (auto& b : m_boids) 
     {
         b->draw();
     }
@@ -102,9 +98,10 @@ void    cScene::update()
 {
     for (auto& b : m_boids)
     {
-        b->move();
+        b->move(frame);
     }
     updateRegionAdjecencies();
+    frame++;
 }
 
 // update all boids behaviours

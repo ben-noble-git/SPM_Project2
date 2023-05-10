@@ -5,7 +5,7 @@ class cBoid
 {
 public:
     //public factory method
-    static cBoid* spawn(int x, int y);
+    static cBoid* spawn(int x, int y, int index);
     // shared function to get the type name
     static std::string getName() { return { "boid" }; }
     // pointer to the scene's vector of boids - so all can 'see' each other
@@ -19,20 +19,20 @@ public:
 
     vec2i region;
 
-    cBoid(int xpos, int ypos);
+    cBoid(int xpos, int ypos, int index);
     virtual ~cBoid() = default;
-    virtual void move();   
+    virtual void move(int frame);   
     virtual void draw();   
 
     void updateWeights();
     // Behaviour weighting
-    float weightChaotic = 0.5f; // 0.0 (calm) to 1.0 (chaotic)
+    float weightChaotic = 0.0f; // 0.0 (calm) to 1.0 (chaotic)
     float weightCursor = 0.0f; // -1.0 (move away from cursor) to 1.0 (move towards cursor)
-
 protected:
     ofVec2f     m_pos;                              // current position
     ofVec2f     m_vel;                              // current velocity
     int         m_drawSize{ 4 };                    // size/radius when displayed on screen     
     ofColor     m_fillColor{ ofColor::blueSteel };  // interior colour
+    int         m_index;
 };
 

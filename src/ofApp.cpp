@@ -4,6 +4,8 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+    ofDisableAntiAliasing();
+    ofFill();
 
     fps = 0;
     // seed random number generator
