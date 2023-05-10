@@ -18,7 +18,8 @@ public:
     void    draw();
     int     getWidth() const { return m_sceneWidth; }
     int     getHeight() const { return m_scenHeight; }
-
+    void    setCursorWeight(float weight);
+    void    setChaoticWeight(float weight);
 
 private:
     // grid drawing data

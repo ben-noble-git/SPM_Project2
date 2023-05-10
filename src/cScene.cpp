@@ -105,3 +105,15 @@ void    cScene::update()
     }
 }
 
+// update all boids behaviours
+void    cScene::setCursorWeight(float weight) {
+    for (auto& b : m_boids) {
+        b->weightCursor = weight;
+    }
+}
+
+void    cScene::setChaoticWeight(float weight) {
+    for (auto& b : m_boids) {
+        b->weightChaotic = weight;
+    }
+}

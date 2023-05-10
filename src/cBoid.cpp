@@ -6,7 +6,7 @@ static const int localDist = 60;    // distance at which a boid considers itself
 static const int avoidDist = 16;    // minimum distance from neighbors to maintain
 
 // Movement controls
-static const float weightWall = 0.5f; // How much should the boids move away from the edge of the canvas?
+static const float weightWall = 1.0f; // How much should the boids move away from the edge of the canvas?
 static const auto wallSize = 100;     // scene boundary thickness - try to stay inside
 
 // Calm preset
@@ -29,10 +29,6 @@ float weightLocalVel;
 float weightLocalMass;
 float weightAvoid;
 float weightRandom;
-
-// Behaviour weighting
-float weightChaotic = 0.5f; // 0.0 (calm) to 1.0 (chaotic)
-
 
 // Draw controls
 static const int trailLength = 0;       // not implemented
@@ -98,7 +94,7 @@ void cBoid::move()
 
     // Move towards the local centre
     if (localCount > 0)
-    {
+    {   
         localMass /= localCount;
         auto massOffset = localMass;
         massOffset -= this->m_pos;
@@ -135,6 +131,15 @@ void cBoid::move()
 
     wallOffset.scale(weightWall);
     this->m_vel += wallOffset;
+
+    // Move towards/away from cursor
+    ofVec2f cursorOffset = ofVec2f(ofGetMouseX(), ofGetMouseY());
+    float distance = ofDist(cursorOffset.x, cursorOffset.y, this->m_pos.x, this->m_pos.y);
+    cursorOffset -= this->m_pos;
+    if (distance < 500) {
+        cursorOffset.scale((500 - distance) / 500 * weightCursor);
+        this->m_vel += cursorOffset;
+    }
 
     // Move forward
     this->m_vel.scale(boidSpeed);

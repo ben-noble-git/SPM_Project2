@@ -116,24 +116,29 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-
+    if (ofGetKeyPressed(OF_KEY_SHIFT)) {
+        int count = ofGetKeyPressed(OF_KEY_CONTROL) ? 100 : 10;
+        if (button == 0) {
+            BOIDS_COUNT += count;
+            m_scene.addBoid(count, x, y);
+        } else if (button == 2) {
+            BOIDS_COUNT -= count;
+            m_scene.removeBoid(count);
+        }
+    }
+    else {
+        if (button == 0) {
+            m_scene.setCursorWeight(1.0);
+        }
+        if (button == 2) {
+            m_scene.setCursorWeight(-1.0);
+        }
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-    switch (button)
-    {
-    case 0:
-        BOIDS_COUNT += 1;
-        m_scene.addBoid(1,x,y);
-        break;
-    case 2:
-        BOIDS_COUNT -= 1;
-        m_scene.removeBoid(1);
-        break;
-    default:    // ignore
-        break;
-    }
+    m_scene.setCursorWeight(0.0);
 }
 
 //--------------------------------------------------------------

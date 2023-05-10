@@ -16,6 +16,10 @@ public:
     virtual void move();   
     virtual void draw();   
 
+    // Behaviour weighting
+    float weightChaotic = 0.5f; // 0.0 (calm) to 1.0 (chaotic)
+    float weightCursor = 0.0f; // -1.0 (move away from cursor) to 1.0 (move towards cursor)
+
 protected:
     static const int    BOIDS_MAX{ 1000 };
     // draw the velocity line/beak?
