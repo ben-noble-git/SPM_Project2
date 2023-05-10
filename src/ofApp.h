@@ -28,6 +28,7 @@ public:
 	void gotMessage(ofMessage msg);
 	
 	ofSoundPlayer backgroundMusic;
+	bool isMusicPaused= false;
 
 	enum class RUN_STATE
 	{

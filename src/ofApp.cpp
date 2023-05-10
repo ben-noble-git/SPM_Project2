@@ -70,15 +70,11 @@ void ofApp::keyPressed(int key){
         ofToggleFullscreen();
         //setWindowMode(OF_FULLSCREEN);
     }
-    // pause the music
+    // music controls
 	if (key == 'm') {
-        backgroundMusic.setPaused(backgroundMusic.isPlaying());
-        
+        isMusicPaused = !isMusicPaused;
+        backgroundMusic.setPaused(isMusicPaused);       
 	}
-	// resume the music
-    else if (key == 'p') {
-		backgroundMusic.setPaused(!backgroundMusic.isPlaying());
-    }
 }
 
 //--------------------------------------------------------------
