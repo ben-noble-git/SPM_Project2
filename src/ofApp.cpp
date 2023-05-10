@@ -4,6 +4,8 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+
+    fps = 0;
     // seed random number generator
     ofSeedRandom();
 
@@ -55,8 +57,15 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+    if (fps > 9999999) {
+        fps = 0;
+    }
+    fps = (fps * 9 + 1 / ofGetLastFrameTime()) / 10;
+    
+    
     ofSetColor(ofColor::black);
     ofDrawBitmapString(m_scene.getBoidCount(), 10, 10);
+    ofDrawBitmapString(floor(fps), 10, 20);
     m_scene.draw();
 }
 
@@ -149,7 +158,7 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-
+    m_scene.resetRegions();
 }
 
 //--------------------------------------------------------------

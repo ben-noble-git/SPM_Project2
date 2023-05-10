@@ -8,7 +8,7 @@ class ofApp : public ofBaseApp
 
 public:
 
-	int BOIDS_COUNT = 450;
+	int BOIDS_COUNT = 1000;
 	
 	void setup();
 	void update();
@@ -26,6 +26,8 @@ public:
 	void windowResized(int w, int h);
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
+
+	double fps;
 	
 	ofSoundPlayer backgroundMusic;
 	bool isMusicPaused= false;
