@@ -63,16 +63,13 @@ void cScene::reset()
 }
 //--------------------------------------------------------------
 // adds a specific quantity of Boids to the vector
-void cScene::addBoid(int count) 
+void cScene::addBoid(int count,int x,int y) 
 {
     cBoid::sp_boids = &m_boids;
-    
-    auto midX = ofGetWidth() / 2;
-    auto midY = ofGetHeight() / 2;
 
     for (int i = count; i--;)
     {
-        m_boids.push_back(cBoid::spawn(midX, midY));
+        m_boids.push_back(cBoid::spawn(x, y));
     }
 }
 //--------------------------------------------------------------

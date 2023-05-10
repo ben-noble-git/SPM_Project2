@@ -12,7 +12,7 @@ public:
     ~cScene();
     void    setup(int count);
     void    reset();
-    void    addBoid(int count);
+    void    addBoid(int count,int x,int y);
     void    removeBoid(int count);
     void    update();
     void    draw();
