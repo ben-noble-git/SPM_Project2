@@ -20,6 +20,7 @@ public:
     int     getHeight() const { return m_scenHeight; }
     void    setCursorWeight(float weight);
     void    setChaoticWeight(float weight);
+    int     getBoidCount();
 
 private:
     // grid drawing data

@@ -56,7 +56,7 @@ void ofApp::update()
 void ofApp::draw()
 {
     ofSetColor(ofColor::black);
-    ofDrawBitmapString(BOIDS_COUNT, 10, 10);
+    ofDrawBitmapString(m_scene.getBoidCount(), 10, 10);
     m_scene.draw();
 }
 
@@ -90,11 +90,9 @@ void ofApp::keyReleased(int key){
         m_runState = RUN_STATE::Reset_Pending; // queue the reset; complete this update
         break;
     case '+':
-        BOIDS_COUNT += 1;
         m_scene.addBoid(1,1,1);
         break;
     case '-':
-        BOIDS_COUNT -= 1;
         m_scene.removeBoid(1);
         break;
 
@@ -119,10 +117,8 @@ void ofApp::mousePressed(int x, int y, int button){
     if (ofGetKeyPressed(OF_KEY_SHIFT)) {
         int count = ofGetKeyPressed(OF_KEY_CONTROL) ? 100 : 10;
         if (button == 0) {
-            BOIDS_COUNT += count;
             m_scene.addBoid(count, x, y);
         } else if (button == 2) {
-            BOIDS_COUNT -= count;
             m_scene.removeBoid(count);
         }
     }

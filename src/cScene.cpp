@@ -65,8 +65,6 @@ void cScene::reset()
 // adds a specific quantity of Boids to the vector
 void cScene::addBoid(int count,int x,int y) 
 {
-    cBoid::sp_boids = &m_boids;
-
     for (int i = count; i--;)
     {
         m_boids.push_back(cBoid::spawn(x, y));
@@ -76,9 +74,11 @@ void cScene::addBoid(int count,int x,int y)
 // removes a specific quantity of Boids to the vector
 void cScene::removeBoid(int count)
 {   
-    cBoid::sp_boids = &m_boids;
     for (int i = count; i--;)
-    {
+    {   
+        if (m_boids.size() <= 0) {
+            break;
+        }
         m_boids.pop_back();
     }
 }
@@ -116,4 +116,8 @@ void    cScene::setChaoticWeight(float weight) {
     for (auto& b : m_boids) {
         b->weightChaotic = weight;
     }
+}
+
+int     cScene::getBoidCount() {
+    return m_boids.size();
 }
