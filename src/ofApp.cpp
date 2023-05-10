@@ -64,7 +64,7 @@ void ofApp::keyReleased(int key){
         break;
     case '+':
         BOIDS_COUNT += 1;
-        m_scene.addBoid(1);
+        m_scene.addBoid(1,1,1);
         break;
     case '-':
         BOIDS_COUNT -= 1;
@@ -94,7 +94,19 @@ void ofApp::mousePressed(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-
+    switch (button)
+    {
+    case 0:
+        BOIDS_COUNT += 1;
+        m_scene.addBoid(1,x,y);
+        break;
+    case 2:
+        BOIDS_COUNT -= 1;
+        m_scene.removeBoid(1);
+        break;
+    default:    // ignore
+        break;
+    }
 }
 
 //--------------------------------------------------------------
