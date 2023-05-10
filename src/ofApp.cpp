@@ -30,8 +30,8 @@ void ofApp::setup()
 	} while (!backgroundMusic.isLoaded());
 
     // background colours
-    ofBackground(0, 0, 0); // black
-    //(167, 199, 231) // pastel blue
+    //ofBackground(0, 0, 0); // black
+    ofBackground(167, 199, 231); // pastel blue
     //(193, 225, 193) // pastel green
     //(255, 255, 255) // white
     //(195, 177, 225);   // pastel purple
