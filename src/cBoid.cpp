@@ -1,23 +1,38 @@
 #include "ofMain.h"
 #include "cBoid.h"
 
-
-// Boid controls
-static const int boidSpeed = 3;     // movement velocity
-
 // Distance controls
 static const int localDist = 60;    // distance at which a boid considers itself in a mass
 static const int avoidDist = 16;    // minimum distance from neighbors to maintain
 
 // Movement controls
-static const float weightLocalVel = 0.3f; // How much should the boids look in the same direction as nearby boids?
-static const float weightLocalMass = 0.7f; // How much should the boids move towards the centre of all nearby boids? In other words, how much should they stick together?
-static const float weightAvoid = 0.6f; // How much should the boids avoid steering into each other?
-static const float weightRandom = 0.1f; // How much should the boids move in a random direction?
 static const float weightWall = 0.5f; // How much should the boids move away from the edge of the canvas?
+static const auto wallSize = 100;     // scene boundary thickness - try to stay inside
 
-// Wall controls
-static const auto wallSize = 100;   // scene boundary thickness - try to stay inside
+// Calm preset
+static const float calmBoidSpeed = 3.0f;       // Movement velocity
+static const float calmWeightLocalVel = 0.2f;  // How much should the boids look in the same direction as nearby boids?
+static const float calmWeightLocalMass = 0.5f; // How much should the boids move towards the centre of all nearby boids? In other words, how much should they stick together?
+static const float calmWeightAvoid = 0.45f;    // How much should the boids avoid steering into each other?
+static const float calmWeightRandom = 0.1f;    // How much should the boids move in a random direction?
+
+// Chaotic preset
+static const float chaoticBoidSpeed = 5.0f;    // Same as above
+static const float chaoticWeightLocalVel = 0.2f;
+static const float chaoticWeightLocalMass = 0.1f;
+static const float chaoticWeightAvoid = 0.9f;
+static const float chaoticWeightRandom = 0.5f;
+
+// Actual values. Calculated by lerping calm and chaotic presets with weight "weightChaotic" (below)
+float boidSpeed;
+float weightLocalVel;
+float weightLocalMass;
+float weightAvoid;
+float weightRandom;
+
+// Behaviour weighting
+float weightChaotic = 0.5f; // 0.0 (calm) to 1.0 (chaotic)
+
 
 // Draw controls
 static const int trailLength = 0;       // not implemented
@@ -37,6 +52,15 @@ cBoid::cBoid(int xpos, int ypos)
 //--------------------------------------------------------------
 void cBoid::move()
 {
+    // lerp behaviour weights
+    float weightCalm = 1.0f - weightChaotic; // simplifies math
+
+    boidSpeed       = calmBoidSpeed       * weightCalm + chaoticBoidSpeed       * weightChaotic;
+    weightLocalVel  = calmWeightLocalVel  * weightCalm + chaoticWeightLocalVel  * weightChaotic;
+    weightLocalMass = calmWeightLocalMass * weightCalm + chaoticWeightLocalMass * weightChaotic;
+    weightAvoid     = calmWeightAvoid     * weightCalm + chaoticWeightAvoid     * weightChaotic;
+    weightRandom    = calmWeightRandom    * weightCalm + chaoticWeightRandom    * weightChaotic;
+
     auto localCount = 0;
     auto localMass = ofVec2f(0, 0);
     auto localVel = ofVec2f(0, 0);

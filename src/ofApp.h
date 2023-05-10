@@ -8,7 +8,7 @@ class ofApp : public ofBaseApp
 
 public:
 
-	int BOIDS_COUNT = 300;
+	int BOIDS_COUNT = 450;
 	
 	void setup();
 	void update();
