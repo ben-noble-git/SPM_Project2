@@ -67,6 +67,14 @@ void ofApp::update()
     //ofSetupOpenGL(1024, 768, OF_FULLSCREEN);			// <-------- setup the GL context
     //ofSetWindowMode(OF_FULLSCREEN);
 
+    //GUI functionality 
+    if (toggleFullscreen == true) {
+        ofSetFullscreen(true);
+    }
+    else {
+        ofSetFullscreen(false);
+    }
+
     // pause execution for a bit - 1.5 seconds
     ofSleepMillis(FRAME_DELAY_MS);
 }
@@ -85,14 +93,7 @@ void ofApp::draw()
     ofDrawBitmapString(floor(fps), 10, 20);
     m_scene.draw();
 
-	// draw gui
-    if (toggleFullscreen == true) {
-        ofSetFullscreen(true);
-    }
-	else {
-		ofSetFullscreen(false);
-	}
-    
+	// draw gui   
 	gui.draw();
    
 }
