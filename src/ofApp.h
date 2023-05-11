@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "cScene.h"
+#include "ofxGui.h"
 
 class ofApp : public ofBaseApp
 {
@@ -27,6 +28,11 @@ public:
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
 
+	ofxPanel gui;
+	ofxToggle toggleMute;
+	ofxToggle toggleFullscreen;
+	ofxLabel title;
+	ofxIntField boidCountField;
 	double fps;
 	
 	ofSoundPlayer backgroundMusic;

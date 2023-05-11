@@ -16,6 +16,15 @@ void ofApp::setup()
 
     // set to running state
     m_runState = RUN_STATE::Running;
+
+	// setup gui
+	gui.setup();
+	gui.add(title.setup("Menu", "Boids"));
+	gui.add(boidCountField.setup("Set Boid count", BOIDS_COUNT, 0, 1000));
+	gui.add(toggleMute.setup("mute", false));
+	gui.add(toggleFullscreen.setup("Fullscreen?", false));
+    
+    
     
 	// checks if the file is loaded, if not, it loads the other file and plays it
     backgroundMusic.load("backgroundMusic.mp3");
@@ -58,6 +67,14 @@ void ofApp::update()
     //ofSetupOpenGL(1024, 768, OF_FULLSCREEN);			// <-------- setup the GL context
     //ofSetWindowMode(OF_FULLSCREEN);
 
+    //GUI functionality 
+    if (toggleFullscreen == true) {
+        ofSetFullscreen(true);
+    }
+    else {
+        ofSetFullscreen(false);
+    }
+
     // pause execution for a bit - 1.5 seconds
     ofSleepMillis(FRAME_DELAY_MS);
 }
@@ -75,6 +92,10 @@ void ofApp::draw()
     ofDrawBitmapString(m_scene.getBoidCount(), 10, 10);
     ofDrawBitmapString(floor(fps), 10, 20);
     m_scene.draw();
+
+	// draw gui   
+	gui.draw();
+   
 }
 
 //--------------------------------------------------------------
