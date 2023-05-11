@@ -9,7 +9,7 @@ class ofApp : public ofBaseApp
 
 public:
 
-	int BOIDS_COUNT = 300;
+	int BOIDS_COUNT = 1000;
 	
 	void setup();
 	void update();
@@ -33,6 +33,10 @@ public:
 	ofxToggle toggleFullscreen;
 	ofxLabel title;
 	ofxIntField boidCountField;
+	double fps;
+	
+	ofSoundPlayer backgroundMusic;
+	bool isMusicPaused= false;
 
 	enum class RUN_STATE
 	{
