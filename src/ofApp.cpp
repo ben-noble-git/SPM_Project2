@@ -4,6 +4,10 @@
 //--------------------------------------------------------------
 void ofApp::setup()
 {
+    ofDisableAntiAliasing();
+    ofFill();
+
+    fps = 0;
     // seed random number generator
     ofSeedRandom();
 
@@ -12,6 +16,27 @@ void ofApp::setup()
 
     // set to running state
     m_runState = RUN_STATE::Running;
+    
+	// checks if the file is loaded, if not, it loads the other file and plays it
+    backgroundMusic.load("backgroundMusic.mp3");
+    
+    do {     
+        if (backgroundMusic.isLoaded()) {
+            backgroundMusic.setLoop(true);
+            backgroundMusic.setVolume(0.7);
+			backgroundMusic.play();
+        }
+        else {
+            backgroundMusic.load("backgroundMusic.ogg");
+        }
+	} while (!backgroundMusic.isLoaded());
+
+    // background colours
+    //ofBackground(0, 0, 0); // black
+    ofBackground(167, 199, 231); // pastel blue
+    //(193, 225, 193) // pastel green
+    //(255, 255, 255) // white
+    //(195, 177, 225);   // pastel purple
 }
 
 //--------------------------------------------------------------
@@ -40,8 +65,15 @@ void ofApp::update()
 //--------------------------------------------------------------
 void ofApp::draw()
 {
+    if (fps > 9999999) {
+        fps = 0;
+    }
+    fps = (fps * 9 + 1 / ofGetLastFrameTime()) / 10;
+    
+    
     ofSetColor(ofColor::black);
-    ofDrawBitmapString(BOIDS_COUNT, 10, 10);
+    ofDrawBitmapString(m_scene.getBoidCount(), 10, 10);
+    ofDrawBitmapString(floor(fps), 10, 20);
     m_scene.draw();
 }
 
@@ -55,6 +87,11 @@ void ofApp::keyPressed(int key){
         ofToggleFullscreen();
         //setWindowMode(OF_FULLSCREEN);
     }
+    // music controls
+	if (key == 'm') {
+        isMusicPaused = !isMusicPaused;
+        backgroundMusic.setPaused(isMusicPaused);       
+	}
 }
 
 //--------------------------------------------------------------
@@ -70,11 +107,9 @@ void ofApp::keyReleased(int key){
         m_runState = RUN_STATE::Reset_Pending; // queue the reset; complete this update
         break;
     case '+':
-        BOIDS_COUNT += 1;
-        m_scene.addBoid(1);
+        m_scene.addBoid(1,1,1);
         break;
     case '-':
-        BOIDS_COUNT -= 1;
         m_scene.removeBoid(1);
         break;
 
@@ -96,12 +131,27 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-
+    if (ofGetKeyPressed(OF_KEY_SHIFT)) {
+        int count = ofGetKeyPressed(OF_KEY_CONTROL) ? 100 : 10;
+        if (button == 0) {
+            m_scene.addBoid(count, x, y);
+        } else if (button == 2) {
+            m_scene.removeBoid(count);
+        }
+    }
+    else {
+        if (button == 0) {
+            m_scene.setCursorWeight(1.0);
+        }
+        if (button == 2) {
+            m_scene.setCursorWeight(-1.0);
+        }
+    }
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-
+    m_scene.setCursorWeight(0.0);
 }
 
 //--------------------------------------------------------------
@@ -116,7 +166,7 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-
+    m_scene.resetRegions();
 }
 
 //--------------------------------------------------------------
