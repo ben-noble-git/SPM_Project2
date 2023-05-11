@@ -395,3 +395,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+bin/SPM_Project2_debug.exe
+bin/SPM_Project2_debug.exe

@@ -1,5 +1,5 @@
 #include "ofApp.h"
-
+#include "cBoid.h"
 
 //--------------------------------------------------------------
 void ofApp::setup()
@@ -20,9 +20,40 @@ void ofApp::setup()
 	// setup gui
 	gui.setup();
 	gui.add(title.setup("Menu", "Boids"));
-	gui.add(boidCountField.setup("Set Boid count", BOIDS_COUNT, 0, 1000));
+	gui.add(boidCountField.setup("Set Boid count", BOIDS_COUNT, 0, 5000));
+	gui.add(setBoidCount.setup("Apply"));
+    gui.add(boidSlider.setup("remove/add", 1, 1, 100));
 	gui.add(toggleMute.setup("mute", false));
 	gui.add(toggleFullscreen.setup("Fullscreen?", false));
+    title.setBackgroundColor(ofColor(195, 195, 195));
+	boidCountField.setBackgroundColor(ofColor(195, 195, 195));
+	setBoidCount.setBackgroundColor(ofColor(195, 195, 195));
+	boidSlider.setBackgroundColor(ofColor(195, 195, 195));
+	toggleMute.setBackgroundColor(ofColor(195, 195, 195));
+	toggleFullscreen.setBackgroundColor(ofColor(195, 195, 195));
+	title.setTextColor(ofColor(0, 0, 0));
+	boidCountField.setTextColor(ofColor(0, 0, 0));
+	setBoidCount.setTextColor(ofColor(0, 0, 0));
+	boidSlider.setTextColor(ofColor(0, 0, 0));
+	toggleMute.setTextColor(ofColor(0, 0, 0));
+	toggleFullscreen.setTextColor(ofColor(0, 0, 0));
+    
+
+    // setup theme GUI
+	themes.setup();
+	themes.setPosition(220, 10);
+    theme1.setBackgroundColor(ofColor(195, 195, 195));
+	theme2.setBackgroundColor(ofColor(195, 195, 195));
+	theme3.setBackgroundColor(ofColor(195, 195, 195));
+	themeTitle.setBackgroundColor(ofColor(195, 195, 195));
+	themes.add(themeTitle.setup("Menu", "Themes"));
+	themes.add(theme1.setup("Theme 1"));
+	themes.add(theme2.setup("Theme 2"));
+	themes.add(theme3.setup("Theme 3"));
+    theme1.setTextColor(ofColor(0, 0, 0));
+    theme2.setTextColor(ofColor(0, 0, 0));
+    theme3.setTextColor(ofColor(0, 0, 0));
+	themeTitle.setDefaultTextColor(ofColor(0, 0, 0)); // this has to be setDefaultTextColor otherwise it stays white, title in other GUI also stays white without this
     
     
     
@@ -74,6 +105,47 @@ void ofApp::update()
     else {
         ofSetFullscreen(false);
     }
+    
+	if (toggleMute == true) {
+		backgroundMusic.setPaused(true);
+	}
+	else {
+        backgroundMusic.setPaused(false);
+	}
+
+    if (setBoidCount) {
+        int count;
+        if (BOIDS_COUNT < boidCountField ) {
+			count = boidCountField - BOIDS_COUNT;
+			m_scene.addBoid(count, 1,1);
+        }
+		else if (BOIDS_COUNT > boidCountField)
+        {
+			count = (BOIDS_COUNT - boidCountField);
+			m_scene.removeBoid(count);
+        }
+            BOIDS_COUNT = boidCountField;
+   }
+    
+	// Theme GUI functionality
+    if (theme1) {
+        ofBackground(167, 199, 231);
+        // the colour of the boid should change to rgb: 45, 83, 115
+        
+        
+    }
+    
+    if (theme2) {
+		ofBackground(193, 225, 193);
+        
+        // the colour of the boid should change to rgb: 254, 200, 216
+    }
+    
+    if (theme3) {
+		ofBackground(195, 177, 225);
+		
+        // the colour of the boid should change to rgb: 197, 217, 171
+    }
 
     // pause execution for a bit - 1.5 seconds
     ofSleepMillis(FRAME_DELAY_MS);
@@ -95,6 +167,11 @@ void ofApp::draw()
 
 	// draw gui   
 	gui.draw();
+    
+	// draw theme gui
+	themes.draw();
+
+    
    
 }
 
@@ -128,10 +205,10 @@ void ofApp::keyReleased(int key){
         m_runState = RUN_STATE::Reset_Pending; // queue the reset; complete this update
         break;
     case '+':
-        m_scene.addBoid(1,1,1);
+		m_scene.addBoid(boidSlider, ofGetMouseX(), ofGetMouseY());
         break;
     case '-':
-        m_scene.removeBoid(1);
+        m_scene.removeBoid(boidSlider);
         break;
 
     default:    // ignore
@@ -152,15 +229,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    if (ofGetKeyPressed(OF_KEY_SHIFT)) {
-        int count = ofGetKeyPressed(OF_KEY_CONTROL) ? 100 : 10;
-        if (button == 0) {
-            m_scene.addBoid(count, x, y);
-        } else if (button == 2) {
-            m_scene.removeBoid(count);
-        }
-    }
-    else {
+
         if (button == 0) {
             m_scene.setCursorWeight(1.0);
         }
@@ -168,7 +237,6 @@ void ofApp::mousePressed(int x, int y, int button){
             m_scene.setCursorWeight(-1.0);
         }
     }
-}
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){

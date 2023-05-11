@@ -4,6 +4,7 @@
 #include "cScene.h"
 #include "ofxGui.h"
 
+
 class ofApp : public ofBaseApp
 {
 
@@ -29,10 +30,18 @@ public:
 	void gotMessage(ofMessage msg);
 
 	ofxPanel gui;
+	ofxPanel themes;
 	ofxToggle toggleMute;
 	ofxToggle toggleFullscreen;
 	ofxLabel title;
+	ofxLabel themeTitle;
 	ofxIntField boidCountField;
+	ofxIntSlider boidSlider;
+	ofxButton setBoidCount;
+	ofxButton theme1;
+	ofxButton theme2;
+	ofxButton theme3;
+
 	double fps;
 	
 	ofSoundPlayer backgroundMusic;
