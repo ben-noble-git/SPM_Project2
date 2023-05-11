@@ -12,6 +12,15 @@ void ofApp::setup()
 
     // set to running state
     m_runState = RUN_STATE::Running;
+
+	// setup gui
+	gui.setup();
+	gui.add(title.setup("Menu", "Boids"));
+	gui.add(boidCountField.setup("Set Boid count", BOIDS_COUNT, 0, 1000));
+	gui.add(toggleMute.setup("mute", false));
+	gui.add(toggleFullscreen.setup("Fullscreen?", false));
+    
+    
 }
 
 //--------------------------------------------------------------
@@ -43,6 +52,17 @@ void ofApp::draw()
     ofSetColor(ofColor::black);
     ofDrawBitmapString(BOIDS_COUNT, 10, 10);
     m_scene.draw();
+
+	// draw gui
+    if (toggleFullscreen == true) {
+        ofSetFullscreen(true);
+    }
+	else {
+		ofSetFullscreen(false);
+	}
+    
+	gui.draw();
+   
 }
 
 //--------------------------------------------------------------

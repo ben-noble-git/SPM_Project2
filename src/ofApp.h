@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "cScene.h"
+#include "ofxGui.h"
 
 class ofApp : public ofBaseApp
 {
@@ -26,6 +27,12 @@ public:
 	void windowResized(int w, int h);
 	void dragEvent(ofDragInfo dragInfo);
 	void gotMessage(ofMessage msg);
+
+	ofxPanel gui;
+	ofxToggle toggleMute;
+	ofxToggle toggleFullscreen;
+	ofxLabel title;
+	ofxIntField boidCountField;
 
 	enum class RUN_STATE
 	{
