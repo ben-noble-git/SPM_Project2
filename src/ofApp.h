@@ -1,67 +1,73 @@
 #pragma once
 
 #include "ofMain.h"
+
 #include "cScene.h"
+
 #include "ofxGui.h"
 
 
-class ofApp : public ofBaseApp
-{
+class ofApp : public ofBaseApp {
 
 public:
 
-	int BOIDS_COUNT = 1000;
-	
-	void setup();
-	void update();
-	void draw();
-	void exit();
+    // Sets Initial Boid Count
+    int BOIDS_COUNT = 1000;
 
-	void keyPressed(int key);
-	void keyReleased(int key);
-	void mouseMoved(int x, int y);
-	void mouseDragged(int x, int y, int button);
-	void mousePressed(int x, int y, int button);
-	void mouseReleased(int x, int y, int button);
-	void mouseEntered(int x, int y);
-	void mouseExited(int x, int y);
-	void windowResized(int w, int h);
-	void dragEvent(ofDragInfo dragInfo);
-	void gotMessage(ofMessage msg);
+    // Functions Running When Program Starts
+    void setup();
+    void update();
+    void draw();
+    void exit();
 
-	ofxPanel gui;
-	ofxPanel themes;
-	ofxToggle toggleMute;
-	ofxToggle toggleFullscreen;
-	ofxLabel title;
-	ofxLabel themeTitle;
-	ofxIntField boidCountField;
-	ofxIntSlider boidSlider;
-	ofxButton setBoidCount;
-	ofxButton theme1;
-	ofxButton theme2;
-	ofxButton theme3;
+    // Functions For User Inputs
+    void keyPressed(int key);
+    void keyReleased(int key);
+    void mousePressed(int x, int y, int button);
+    void mouseReleased(int x, int y, int button);
+    void windowResized(int w, int h);
 
-	double fps;
-	
-	ofSoundPlayer backgroundMusic;
-	bool isMusicPaused= false;
+    // All GUI Elements
+    ofxPanel gui;
+    ofxPanel themes;
+    ofxToggle toggleMute;
+    ofxToggle toggleFullscreen;
+    ofxLabel title;
+    ofxLabel themeTitle;
+    ofxIntField boidCountField;
+    ofxIntSlider boidSlider;
+    ofxButton setBoidCount;
+    ofxButton theme1;
+    ofxButton theme2;
+    ofxButton theme3;
 
-	enum class RUN_STATE
-	{
-		Idle = 0,
-		Running,
-		Paused,
-		Reset_Pending,
-		_Num_States
-	};
+    // Variable Testing For FPS Counter
+    double fps;
 
-private:
-	const int		FRAME_DELAY_MS { 1 };
-	
-	ofWindowMode    windowMode = OF_WINDOW;
+    // Variables For Music
+    ofSoundPlayer backgroundMusic;
+    bool isMusicPaused = false;
 
-	cScene			m_scene{ ofGetWidth(), ofGetHeight() };
-	
-	RUN_STATE		m_runState{ RUN_STATE::Idle };
+    // Enum Class For Run State
+    enum class RUN_STATE {
+        Idle = 0,
+        Running,
+        Paused,
+        Reset_Pending,
+        _Num_States
+    };
+
+private: const int FRAME_DELAY_MS{
+  1
+};
+
+       ofWindowMode windowMode = OF_WINDOW;
+
+       cScene m_scene{
+         ofGetWidth(), ofGetHeight()
+       };
+
+       RUN_STATE m_runState{
+         RUN_STATE::Idle
+       };
 };
