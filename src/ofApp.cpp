@@ -40,8 +40,11 @@ void ofApp::setup() {
     toggleMute.setTextColor(ofColor(0, 0, 0));
     toggleFullscreen.setTextColor(ofColor(0, 0, 0));
 
+
     // setup theme GUI
     themes.setup();
+
+    
 
     themes.setPosition(220, 10);
 
@@ -51,22 +54,22 @@ void ofApp::setup() {
     themeTitle.setBackgroundColor(ofColor(195, 195, 195));
 
     themes.add(themeTitle.setup("Menu", "Themes"));
-    themes.add(theme1.setup("Theme 1"));
-    themes.add(theme2.setup("Theme 2"));
-    themes.add(theme3.setup("Theme 3"));
+    themes.add(theme1.setup("Theme 1", true));
+    themes.add(theme2.setup("Theme 2", false));
+    themes.add(theme3.setup("Theme 3", false));
 
     theme1.setTextColor(ofColor(0, 0, 0));
     theme2.setTextColor(ofColor(0, 0, 0));
     theme3.setTextColor(ofColor(0, 0, 0));
 
-    // initialising a variable called newColour
-    ofColor newColour;
-    newColour = ofColor::blueSteel;
+    applyTheme();
 
     themeTitle.setDefaultTextColor(ofColor(0, 0, 0)); // this has to be setDefaultTextColor otherwise it stays white, title in other GUI also stays white without this
 
     // checks if the file is loaded, if not, it loads the other file and plays it
     backgroundMusic.load("backgroundMusic.mp3");
+
+
 
     do {
         if (backgroundMusic.isLoaded()) {
@@ -79,18 +82,69 @@ void ofApp::setup() {
         }
     } while (!backgroundMusic.isLoaded());
 
-    // background colours
-    //ofBackground(0, 0, 0); // black
-    ofBackground(167, 199, 231); // pastel blue
-    //(193, 225, 193) // pastel green
-    //(255, 255, 255) // white
-    //(195, 177, 225);   // pastel purple
-}
 
+    ofBackground(167, 199, 231); // pastel blue
+
+}
+void ofApp::applyTheme() {
+    ofColor boidColor;
+    // Theme GUI functionality
+    if (theme1) {
+        const std::vector<cBoid*>& boids = m_scene.getBoids(); // fetches the number of boids on the scene
+        ofBackground(167, 199, 231);
+        // the colour of the boid should change to rgb: 45, 83, 115
+        boidColor = ofColor(45, 83, 115);
+
+        // Loop through the boids and set their colors
+        for (auto& boid : boids) {
+            boid->setColour(boidColor);
+        }
+
+    }
+
+    else if (theme2) {
+        const std::vector<cBoid*>& boids = m_scene.getBoids(); // fetches the number of boids on the scene
+
+        ofBackground(193, 225, 193);
+
+        // the colour of the boid should change to rgb: 254, 200, 216
+        boidColor = ofColor(254, 200, 216);
+
+        // Loop through the boids and set their colors
+        for (auto& boid : boids) {
+            boid->setColour(boidColor);
+        }
+    }
+
+    else if (theme3) {
+
+        const std::vector<cBoid*>& boids = m_scene.getBoids(); // fetches the number of boids on the scene
+        ofBackground(195, 177, 225);
+
+        // the colour of the boid should change to rgb: 197, 217, 171
+        boidColor = ofColor(197, 217, 171);
+
+        // Loop through the boids and set their colors
+        for (auto& boid : boids) {
+            boid->setColour(boidColor);
+        }
+    }
+    else {
+        const std::vector<cBoid*>& boids = m_scene.getBoids(); // fetches the number of boids on the scene
+        ofBackground(167, 199, 231);
+        // the colour of the boid should change to rgb: 45, 83, 115
+        boidColor = ofColor(45, 83, 115);
+
+        // Loop through the boids and set their colors
+        for (auto& boid : boids) {
+            boid->setColour(boidColor);
+        }
+    }
+}
 //--------------------------------------------------------------
 void ofApp::update() {
     // define boid colour
-    ofColor boidColor;
+    
 
 
     // update everything if the app is a running state
@@ -136,46 +190,8 @@ void ofApp::update() {
        
     }
 
-    // Theme GUI functionality
-    if (theme1) {
-        const std::vector<cBoid*>& boids = m_scene.getBoids(); // fetches the number of boids on the scene
-        ofBackground(167, 199, 231);
-        // the colour of the boid should change to rgb: 45, 83, 115
-        boidColor = ofColor(45, 83, 115);
-
-        // Loop through the boids and set their colors
-        for (auto& boid : boids) {
-            boid->setColour(boidColor);
-        }
-
-    }
-
-    if (theme2) {
-        const std::vector<cBoid*>& boids = m_scene.getBoids(); // fetches the number of boids on the scene
-
-        ofBackground(193, 225, 193);
-
-        // the colour of the boid should change to rgb: 254, 200, 216
-        boidColor = ofColor(254, 200, 216);
-
-        // Loop through the boids and set their colors
-        for (auto& boid : boids) {
-            boid->setColour(boidColor);
-        }
-    }
-
-    if (theme3) {
-
-        const std::vector<cBoid*>& boids = m_scene.getBoids(); // fetches the number of boids on the scene
-        ofBackground(195, 177, 225);
-
-        // the colour of the boid should change to rgb: 197, 217, 171
-        boidColor = ofColor(197, 217, 171);
-
-        // Loop through the boids and set their colors
-        for (auto& boid : boids) {
-            boid->setColour(boidColor);
-        }
+    if (theme1 || theme2 || theme3) {
+        applyTheme();
     }
 
     // pause execution for a bit - 1.5 seconds

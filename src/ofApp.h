@@ -57,6 +57,8 @@ public:
         _Num_States
     };
 
+    void applyTheme();
+
 private: const int FRAME_DELAY_MS{
   1
 };
