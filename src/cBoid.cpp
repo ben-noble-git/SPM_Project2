@@ -12,33 +12,33 @@ const int avoidDist = 16; // minimum distance from neighbors to maintain
 
 // Movement controls
 static
-const float weightWall = 1.0 f; // How much should the boids move away from the edge of the canvas?
+const float weightWall = 1.0f; // How much should the boids move away from the edge of the canvas?
 static
 const int wallSize = 50; // scene boundary thickness - try to stay inside
 
 // Calm preset
 static
-const float calmBoidSpeed = 3.0 f; // Movement velocity
+const float calmBoidSpeed = 3.0f; // Movement velocity
 static
-const float calmWeightLocalVel = 0.2 f; // How much should the boids look in the same direction as nearby boids?
+const float calmWeightLocalVel = 0.2f; // How much should the boids look in the same direction as nearby boids?
 static
-const float calmWeightLocalMass = 0.5 f; // How much should the boids move towards the centre of all nearby boids? In other words, how much should they stick together?
+const float calmWeightLocalMass = 0.5f; // How much should the boids move towards the centre of all nearby boids? In other words, how much should they stick together?
 static
-const float calmWeightAvoid = 0.45 f; // How much should the boids avoid steering into each other?
+const float calmWeightAvoid = 0.45f; // How much should the boids avoid steering into each other?
 static
-const float calmWeightRandom = 0.1 f; // How much should the boids move in a random direction?
+const float calmWeightRandom = 0.1f; // How much should the boids move in a random direction?
 
 // Chaotic preset
 static
-const float chaoticBoidSpeed = 5.0 f; // Same as above
+const float chaoticBoidSpeed = 5.0f; // Same as above
 static
-const float chaoticWeightLocalVel = 0.2 f;
+const float chaoticWeightLocalVel = 0.2f;
 static
-const float chaoticWeightLocalMass = 0.1 f;
+const float chaoticWeightLocalMass = 0.1f;
 static
-const float chaoticWeightAvoid = 0.9 f;
+const float chaoticWeightAvoid = 0.9f;
 static
-const float chaoticWeightRandom = 0.5 f;
+const float chaoticWeightRandom = 0.5f;
 
 // Actual values. Calculated by lerping calm and chaotic presets with weight "weightChaotic" (below)
 float boidSpeed;
@@ -57,10 +57,8 @@ std::vector < std::vector < std::vector < cBoid* >>>* cBoid::sp_regions = nullpt
 std::vector < std::vector < std::vector < cBoid* >>>* cBoid::sp_regions_adjacent = nullptr; // shared reference to the scene's vector of boids
 
 //--------------------------------------------------------------
-cBoid::cBoid(int xpos, int ypos, int index) : m_pos{
-  xpos,
-  ypos
-}, m_index(index) {}
+cBoid::cBoid(int xpos, int ypos, int index, const ofColor& color) 
+    : m_pos{xpos, ypos}, m_index(index), m_fillColor(color) {}
 
 //--------------------------------------------------------------
 void cBoid::move(int frame) {
@@ -149,10 +147,10 @@ void cBoid::move(int frame) {
     m_pos += m_vel;
 
     // Clamp position
-    m_pos.x = max(m_pos.x, 0.0 f);
-    m_pos.y = max(m_pos.y, 0.0 f);
-    m_pos.x = min(m_pos.x, ofGetWindowWidth() - 0.1 f);
-    m_pos.y = min(m_pos.y, ofGetWindowHeight() - 0.1 f);
+    m_pos.x = max(m_pos.x, 0.0f);
+    m_pos.y = max(m_pos.y, 0.0f);
+    m_pos.x = min(m_pos.x, ofGetWindowWidth() - 0.1f);
+    m_pos.y = min(m_pos.y, ofGetWindowHeight() - 0.1f);
 
     if (floor(m_pos.x / localDist) != region.x || floor(m_pos.y / localDist) != region.y) {
         // Update region
@@ -174,8 +172,8 @@ void cBoid::draw() {
     ofDrawCircle(int(m_pos.x), int(m_pos.y), m_drawSize);
 }
 //--------------------------------------------------------------
-cBoid* cBoid::spawn(int x, int y, int index) {
-    cBoid* pBoid = new cBoid(x, y, index);
+cBoid* cBoid::spawn(int x, int y, int index, ofColor& color) {
+    cBoid* pBoid = new cBoid(x, y, index, color);
     pBoid->region.x = x / 60;
     pBoid->region.y = y / 60;
     pBoid->updateWeights();
@@ -184,7 +182,7 @@ cBoid* cBoid::spawn(int x, int y, int index) {
 
 void cBoid::updateWeights() {
     // lerp behaviour weights
-    float weightCalm = 1.0 f - weightChaotic; // simplifies math
+    float weightCalm = 1.0f - weightChaotic; // simplifies math
     boidSpeed = calmBoidSpeed * weightCalm + chaoticBoidSpeed * weightChaotic;
     weightLocalVel = calmWeightLocalVel * weightCalm + chaoticWeightLocalVel * weightChaotic;
     weightLocalMass = calmWeightLocalMass * weightCalm + chaoticWeightLocalMass * weightChaotic;

@@ -1,5 +1,4 @@
 #include "ofApp.h"
-
 #include "cBoid.h"
 
 //--------------------------------------------------------------
@@ -60,6 +59,10 @@ void ofApp::setup() {
     theme2.setTextColor(ofColor(0, 0, 0));
     theme3.setTextColor(ofColor(0, 0, 0));
 
+    // initialising a variable called newColour
+    ofColor newColour;
+    newColour = ofColor::blueSteel;
+
     themeTitle.setDefaultTextColor(ofColor(0, 0, 0)); // this has to be setDefaultTextColor otherwise it stays white, title in other GUI also stays white without this
 
     // checks if the file is loaded, if not, it loads the other file and plays it
@@ -86,6 +89,10 @@ void ofApp::setup() {
 
 //--------------------------------------------------------------
 void ofApp::update() {
+    // define boid colour
+    ofColor boidColor;
+
+
     // update everything if the app is a running state
     if (m_runState == RUN_STATE::Reset_Pending) {
         m_scene.reset();
@@ -126,25 +133,49 @@ void ofApp::update() {
             m_scene.removeBoid(count);
         }
         BOIDS_COUNT = boidCountField;
+       
     }
 
     // Theme GUI functionality
     if (theme1) {
+        const std::vector<cBoid*>& boids = m_scene.getBoids(); // fetches the number of boids on the scene
         ofBackground(167, 199, 231);
         // the colour of the boid should change to rgb: 45, 83, 115
+        boidColor = ofColor(45, 83, 115);
+
+        // Loop through the boids and set their colors
+        for (auto& boid : boids) {
+            boid->setColour(boidColor);
+        }
 
     }
 
     if (theme2) {
+        const std::vector<cBoid*>& boids = m_scene.getBoids(); // fetches the number of boids on the scene
+
         ofBackground(193, 225, 193);
 
         // the colour of the boid should change to rgb: 254, 200, 216
+        boidColor = ofColor(254, 200, 216);
+
+        // Loop through the boids and set their colors
+        for (auto& boid : boids) {
+            boid->setColour(boidColor);
+        }
     }
 
     if (theme3) {
+
+        const std::vector<cBoid*>& boids = m_scene.getBoids(); // fetches the number of boids on the scene
         ofBackground(195, 177, 225);
 
         // the colour of the boid should change to rgb: 197, 217, 171
+        boidColor = ofColor(197, 217, 171);
+
+        // Loop through the boids and set their colors
+        for (auto& boid : boids) {
+            boid->setColour(boidColor);
+        }
     }
 
     // pause execution for a bit - 1.5 seconds
@@ -163,6 +194,7 @@ void ofApp::draw() {
     ofDrawBitmapString(floor(fps), 10, 20);
     m_scene.draw();
 
+    
     // draw gui   
     gui.draw();
 

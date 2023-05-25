@@ -33,7 +33,8 @@ void cScene::setup(int count) {
     auto midY = ofGetHeight() / 2;
 
     for (int i = count; i--;) {
-        m_boids.push_back(cBoid::spawn(midX, midY, m_boids.size()));
+        ofColor boidColor;
+        m_boids.push_back(cBoid::spawn(midX, midY, m_boids.size(), boidColor));
         //m_boids.push_back(new cBoid{ midX, midY });
     }
 }
@@ -51,7 +52,8 @@ void cScene::reset() {
             delete m_boids[i];
             m_boids[i] = nullptr;
         }
-        m_boids[i] = cBoid::spawn(midX, midY, m_boids.size());
+        ofColor boidColor;
+        m_boids[i] = cBoid::spawn(midX, midY, m_boids.size(), boidColor);
     }
 
 }
@@ -59,7 +61,8 @@ void cScene::reset() {
 // adds a specific quantity of Boids to the vector
 void cScene::addBoid(int count, int x, int y) {
     for (int i = count; i--;) {
-        m_boids.push_back(cBoid::spawn(x, y, m_boids.size()));
+        ofColor boidColor;
+        m_boids.push_back(cBoid::spawn(x, y, m_boids.size(), boidColor));
     }
 }
 //--------------------------------------------------------------

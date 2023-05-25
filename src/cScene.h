@@ -1,4 +1,5 @@
-#pragma once#include <vector>
+#pragma once
+#include <vector>
 
 // forward declaration
 class cBoid;
@@ -24,6 +25,9 @@ public: cScene() = delete; // no default constructor - must set width & height
       int getBoidCount();
       void resetRegions();
       void updateRegionAdjecencies();
+      const std::vector<cBoid*>& getBoids() const {
+          return m_boids;
+      }
 private:
     // grid drawing data
     int m_sceneWidth{
